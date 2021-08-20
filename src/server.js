@@ -9,10 +9,10 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const formData = require('express-form-data');
 const db = require('./api/models/index');
 
 app = express();
-app.set('port', process.env.PORT || 3000);
 app.use(morgan('dev'));
 app.use(( request, response, next ) => {
     response.header("Access-Control-Allow-Origin", "*");
@@ -22,12 +22,13 @@ app.use(( request, response, next ) => {
 });
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/uploads/', express.static(__dirname + '/api/uploads/'));
 
 app.use( require('./api/routes/index') );
 
+app.set('port', process.env.PORT || 3000);
 db.sequelize.sync().then(( request ) => {
     app.listen(app.get('port'), () => {
         console.log('Server is listening on port', app.get('port'))

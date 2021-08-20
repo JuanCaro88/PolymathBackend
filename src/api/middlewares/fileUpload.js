@@ -3,14 +3,11 @@ const path = require('path');
 
 const storage = multer.diskStorage({
     destination : ( request, file, cb ) => {
-        cb( null, '../uploads' )
+        cb( null, 'uploads' )
     },
     filename : ( request, file, cb ) => {
-        console.log(file);
-        cb( null, Date.now() + path(file.originalname) )
+        cb( null, new Date().toISOString() + path.extname(file.originalname))
     }
-})
+});
 
-const upload = multer({ storage : storage })
-
-module.exports = upload;
+module.exports = multer({ storage : storage });

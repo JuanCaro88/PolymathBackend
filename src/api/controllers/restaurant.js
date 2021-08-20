@@ -21,7 +21,8 @@ exports.getAll = ( request, response ) => {
 
 // Create new item
 exports.create = ( request, response ) => {
-    console.log(request.body);
+    console.log(request.files)
+    console.log(request.body)
     Restaurant.create({
         name        : request.body.name,
         description : request.body.description,
